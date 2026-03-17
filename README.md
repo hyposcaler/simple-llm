@@ -1,4 +1,6 @@
-This is a simple docker compose set up to use vLLM to run Qwen/Qwen3-14B-FP8 (FP8 quant version of Qwen 3 14B model with thinking/non-thinking mode), and uses open-webui for a web based chat interface. The OpenAI compatible API is also exposed via port 8000 on localhost.
+This is a simple docker compose set up to use vLLM to run Qwen/Qwen3-14B-FP8 (FP8 quant version of Qwen 3 14B model with thinking/non-thinking mode), and uses open-webui for a web based chat interface. It includes Prometheus and Grafana for monitoring vLLM metrics. The OpenAI compatible API is also exposed via port 8000 on localhost.
+
+> Note a lot of what is done here can just as easily be done without docker and just using python venvs, I just personally find the docker route easier.
 
 This setup is useful to experiment with local LLMs, vLLM, and open-webui. 
 
@@ -6,9 +8,7 @@ The model itself fits within ~15GB of VRAM and runs easily on a 5090. The more V
 
 Smaller GPUs technically can work but you need to reduce the size of the context and/or use a smaller model, i.e. rather than Qwen/Qwen3-14B-FP8 you could try with Qwen/Qwen3-8B-FP8.
 
-The docker-compose setup uses a docker volume to store both the model and data for the web-ui. This saves time on startup the second time around since it doesn't have to download the model.
-
-> Note alot of what is done here can just as easily be done without docker and just using python venvs, I just personally find the docker route easier.
+The model cache is stored in a local `./models` directory (bind mount), so it survives `docker compose down -v` and doesn't need to be re-downloaded. Open-webui data (chat history, settings) uses a Docker volume (`open-webui-data`) which will be removed by `docker compose down -v`. Prometheus and Grafana have no persistent storage and start fresh each time.
 
 Prerequisites, in the default configuration, you will need docker installed on the machine and a GPU with at least 28GB of VRAM (e.g. RTX 5090 or better).  You will also need NVIDIA's container toolkit installed
 
@@ -42,13 +42,17 @@ vllm-1  | (APIServer pid=1) INFO:     Application startup complete.
 
 Once the model is loaded you should be able to access the web-ui interface in your browser via [http://localhost:3000/](http://localhost:3000/)
 
+Prometheus is available at [http://localhost:9090/](http://localhost:9090/)
+
+Grafana is available at [http://localhost:3001/](http://localhost:3001/) and is preconfigured with prometheus as a datasource, and pre-loaded with a minesoap's [vllm-monitoring-v2 dashboard](https://grafana.com/grafana/dashboards/24756-vllm-monitoring-v2/). No login is required.
+
 The OpenAI API compatible endpoint provided by vLLM is also available via port 8000, for a simple test use curl
 
 ```
 curl http://localhost:8000/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "Qwen/Qwen2.5-14B-Instruct-AWQ",
+    "model": "Qwen/Qwen3-14B-FP8",
     "messages": [{"role": "user", "content": "how many r'\''s are in strawberry"}],
     "temperature": 0.7,
     "max_tokens": 200

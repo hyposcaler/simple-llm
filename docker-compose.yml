@@ -1,0 +1,38 @@
+services:
+  vllm:
+    image: vllm/vllm-openai:v0.17.1
+    ports:
+      - "8000:8000"
+    ipc: host
+    volumes:
+      - model-cache:/root/.cache/huggingface
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    command:
+      - --model
+      - Qwen/Qwen2.5-14B-Instruct-AWQ
+      - --host
+      - "0.0.0.0"
+      - --port
+      - "8000"
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:v0.8.10
+    ports:
+      - "3000:8080"
+    environment:
+      - OPENAI_API_BASE_URL=http://vllm:8000/v1
+      - OPENAI_API_KEY=none
+    volumes:
+      - open-webui-data:/app/backend/data
+    depends_on:
+      - vllm
+
+volumes:
+  model-cache:
+  open-webui-data:

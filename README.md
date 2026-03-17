@@ -44,7 +44,9 @@ Once the model is loaded you should be able to access the web-ui interface in yo
 
 Prometheus is available at [http://localhost:9090/](http://localhost:9090/)
 
-Grafana is available at [http://localhost:3001/](http://localhost:3001/) and is preconfigured with prometheus as a datasource, and pre-loaded with a minesoap's [vllm-monitoring-v2 dashboard](https://grafana.com/grafana/dashboards/24756-vllm-monitoring-v2/). No login is required.
+Grafana is available at [http://localhost:3001/](http://localhost:3001/) and is a preconfigured with prometheus as a datasource, and pre-loaded with a modified version (mostly korean->english translations of panel descriptions) of minesoap's [vllm-monitoring-v2 dashboard](https://grafana.com/grafana/dashboards/24756-vllm-monitoring-v2/). 
+
+>Security NOTE! No login for grafana, prom, nor the vLLM API is required.
 
 The OpenAI API compatible endpoint provided by vLLM is also available via port 8000, for a simple test use curl
 

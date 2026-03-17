@@ -1,4 +1,6 @@
-This is a simple docker compose set up to use vLLM to run Qwen/Qwen3-14B-FP8 (FP8 quant version of Qwen 3 14B model with thinking/non-thinking mode), and uses open-webui for a web based chat interface. It includes Prometheus and Grafana for monitoring vLLM metrics. The OpenAI compatible API is also exposed via port 8000 on localhost.
+# Simple LLM
+
+This is a simple docker compose setup for using vLLM to run Qwen/Qwen3-14B-FP8 (FP8 quant version of Qwen 3 14B model with thinking/non-thinking mode), and uses open-webui for a web based chat interface. It includes Prometheus and Grafana for monitoring vLLM metrics. The OpenAI compatible API is also exposed via port 8000 on localhost.
 
 > Note a lot of what is done here can just as easily be done without docker and just using python venvs, I just personally find the docker route easier.
 

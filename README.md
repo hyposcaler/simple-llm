@@ -6,7 +6,7 @@ This is a simple docker compose setup for using vLLM to run Qwen/Qwen3-14B-FP8 (
 
 This setup is useful to experiment with local LLMs, vLLM, and open-webui. 
 
-The model itself fits within ~15GB of VRAM and runs easily on a 5090. The more VRAM above 15GB you have the larger the context that will be available. On a 5090 vLLM has ~16GB remaining for KV cache.
+In the default config (running Qwen/Qwen3-14B-FP8) the model itself fits within ~15GB of VRAM and runs easily on a 5090. The more VRAM above 15GB you have the larger the context that will be available. On a 5090 vLLM has ~16GB remaining for KV cache.  vLLM in this config seems to autoconfigure for ~2 concurrent  connections with ~40k tokens worth of context each. 
 
 Smaller GPUs technically can work but you need to reduce the size of the context and/or use a smaller model, i.e. rather than Qwen/Qwen3-14B-FP8 you could try with Qwen/Qwen3-8B-FP8.
 

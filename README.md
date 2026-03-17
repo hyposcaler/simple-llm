@@ -1,10 +1,10 @@
-This is a simple docker compose set up to use vLLM to run Qwen/Qwen2.5-14B-Instruct-AWQ (4bit quant version of Qwen 2.5 14B instruct model), and uses open-webui for a web based chat interface. The OpenAI compatible API is also exposed via port 8000 on localhost.
+This is a simple docker compose set up to use vLLM to run Qwen/Qwen3-14B-FP8 (FP8 quant version of Qwen 3 14B model with thinking/non-thinking mode), and uses open-webui for a web based chat interface. The OpenAI compatible API is also exposed via port 8000 on localhost.
 
 This setup is useful to experiment with local LLMs, vLLM, and open-webui. 
 
-The model itself fits within 8-9G of VRAM and runs easily on a 5090. The more VRAM above the 9GB you have the larger the context that will be available.  On a 5090 vLLM auto configures for 2 concurrent connections with ~32K of context consuming an additional 18G for a total of ~28G
+The model itself fits within ~15GB of VRAM and runs easily on a 5090. The more VRAM above 15GB you have the larger the context that will be available. On a 5090 vLLM has ~16GB remaining for KV cache.
 
-Smaller GPUs technically can work but you need to reduce the size of the context and/or use a smaller model, i.e. rather than Qwen/Qwen2.5-14B-Instruct-AWQ you could try with Qwen/Qwen2.5-7B-Instruct-AWQ.
+Smaller GPUs technically can work but you need to reduce the size of the context and/or use a smaller model, i.e. rather than Qwen/Qwen3-14B-FP8 you could try with Qwen/Qwen3-8B-FP8.
 
 The docker-compose setup uses a docker volume to store both the model and data for the web-ui. This saves time on startup the second time around since it doesn't have to download the model.
 
@@ -23,7 +23,7 @@ to start, from the repo run
 docker compose up -d
 ```
 
-It will take a minute or so to boot, longer on the first time since it needs to download the models, you can check the logs to monitor progress with
+It will take a 2 minutes or so to fire up, longer on the first time since it needs to download the model (~15G for Qwen/Qwen3-14B-FP8 ), you can check the logs to monitor progress with
 ```
 docker compose logs -f
 ```

@@ -83,7 +83,7 @@ docker compose down -v
 ```
 
 ## Resources
-[vLLM repo](https://github.com/vllm-project/vllm)
-[vLLM Docs](https://docs.vllm.ai/en/latest/)
-[Qwen3-14B-FP8](https://huggingface.co/Qwen/Qwen3-14B-FP8)
-[Qwen](https://huggingface.co/Qwen)
+- [vLLM repo](https://github.com/vllm-project/vllm)
+- [vLLM Docs](https://docs.vllm.ai/en/latest/)
+- [Qwen3-14B-FP8](https://huggingface.co/Qwen/Qwen3-14B-FP8)
+- [Qwen](https://huggingface.co/Qwen)

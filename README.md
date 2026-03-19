@@ -1,5 +1,4 @@
 # Simple LLM
-
 This is a simple docker compose setup for using vLLM to run Qwen/Qwen3-14B-FP8 (FP8 quant version of Qwen 3 14B model with thinking/non-thinking mode), and uses open-webui for a web based chat interface. It includes Prometheus and Grafana for monitoring vLLM metrics. The OpenAI compatible API is also exposed via port 8000 on localhost.
 
 > Note a lot of what is done here can just as easily be done without docker and just using python venvs, I just personally find the docker route easier.
@@ -12,6 +11,7 @@ Smaller GPUs technically can work but you need to reduce the size of the context
 
 The model cache is stored in a local `./models` directory (bind mount), so it survives `docker compose down -v` and doesn't need to be re-downloaded. Open-webui data (chat history, settings) uses a Docker volume (`open-webui-data`) which will be removed by `docker compose down -v`. Prometheus and Grafana have no persistent storage and start fresh each time.
 
+## Prerequisites 
 Prerequisites, in the default configuration, you will need docker installed on the machine and a GPU with at least 28GB of VRAM (e.g. RTX 5090 or better).  You will also need NVIDIA's container toolkit installed
 
 See the [docker website](https://docs.docker.com/engine/install/) for install instructions for a variety of platforms 
@@ -20,6 +20,7 @@ see [NVIDIA container toolkit docs](https://docs.nvidia.com/datacenter/cloud-nat
 
 This repo has primarily been tested using debian, but arguably should work anywhere you can install docker and the NVIDIA container toolkit.
 
+## Startup
 to start, from the repo run
 ```
 docker compose up -d
@@ -42,6 +43,7 @@ vllm-1  | (APIServer pid=1) INFO:     Waiting for application startup.
 vllm-1  | (APIServer pid=1) INFO:     Application startup complete.
 ```
 
+## Use
 Once the model is loaded you should be able to access the web-ui interface in your browser via [http://localhost:3000/](http://localhost:3000/)
 
 Prometheus is available at [http://localhost:9090/](http://localhost:9090/)
@@ -63,6 +65,7 @@ curl http://localhost:8000/v1/chat/completions \
   }'
 ```
 
+## Teardown
 to tear down and leave volumes in place
 ```
 docker compose down
@@ -72,3 +75,10 @@ to tear down and remove volumes too
 ```
 docker compose down -v
 ```
+
+## Resources
+
+[vLLM repo](https://github.com/vllm-project/vllm)
+[vLLM Docs](https://docs.vllm.ai/en/latest/)
+[Qwen3-14B-FP8](https://huggingface.co/Qwen/Qwen3-14B-FP8)
+[Qwen](https://huggingface.co/Qwen)
